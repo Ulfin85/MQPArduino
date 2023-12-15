@@ -19,7 +19,7 @@ void stepper::driveStepper(float deg, int speed)
 {
     if(deg < 0)
     {
-        if(steps<0)
+        if(steps*stepAngle<0)
         {
 
             if(deg<steps*stepAngle)
@@ -75,7 +75,7 @@ void stepper::driveStepper(float deg, int speed)
 
     else
     {
-        if(steps>0){
+        if(steps*stepAngle>0){
 
             if(deg<steps*stepAngle)
             {
