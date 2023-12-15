@@ -17,53 +17,118 @@ void stepper::init(int ENA, int DIR, int PUL, float sAngle, float ratio)
 
 void stepper::driveStepper(float deg, int speed)
 {
-    if(steps == 0){
-        digitalWrite(DIRpin, HIGH);
-        int numStep = round(deg/stepAngle*gearRatio);
-        Serial.println(numStep);
-        for(int x = 0; x < numStep; x++){
+    if(deg < 0)
+    {
+        if(steps<0)
+        {
+
+            if(deg<steps*stepAngle)
+            {
+                digitalWrite(DIRpin, LOW);
+                int numStep = round(deg/stepAngle*gearRatio);
+                int travStep = abs(numStep)-abs(steps);
+                for(int x = 0; x < travStep; x++)
+                {
+                digitalWrite(PULpin, HIGH);
+                delayMicroseconds(speed);
+                digitalWrite(PULpin, LOW);
+                delayMicroseconds(speed);
+                steps--;
+                }
+                delay(200);
+
+            }
+            if(deg>steps*stepAngle)
+            {
+                digitalWrite(DIRpin, HIGH);
+                int numStep = round(deg/stepAngle*gearRatio);
+                int travStep = abs(numStep)-steps;
+                for(int x = 0; x < travStep; x++)
+                {
+                digitalWrite(PULpin, HIGH);
+                delayMicroseconds(speed);
+                digitalWrite(PULpin, LOW);
+                delayMicroseconds(speed);
+                steps++;
+                }
+            
+                delay(200);
+
+            }
+        }
+        else{
+            digitalWrite(DIRpin, LOW);
+            int numStep = round(deg/stepAngle*gearRatio);
+            int travStep = abs(numStep)+abs(steps);
+            for(int x = 0; x < travStep; x++)
+            {
             digitalWrite(PULpin, HIGH);
             delayMicroseconds(speed);
             digitalWrite(PULpin, LOW);
             delayMicroseconds(speed);
-            
+            steps--;
+            }
+            delay(200);
         }
-        steps = numStep;
-        delay(200);
-        
+
     }
-    if(steps != 0){
-        float currDeg = steps*stepAngle;
-        if(deg<currDeg){
-            float travDeg = currDeg-deg;
-            int numStep = round(travDeg/stepAngle*gearRatio);
-            digitalWrite(DIRpin, LOW);
-            for(int x = 0; x < numStep; x++){
+
+    else
+    {
+        if(steps>0){
+
+            if(deg<steps*stepAngle)
+            {
+                digitalWrite(DIRpin, LOW);
+                int numStep = round(deg/stepAngle*gearRatio);
+                int travStep = abs(steps)-abs(numStep);
+                for(int x = 0; x < travStep; x++)
+                {
                 digitalWrite(PULpin, HIGH);
                 delayMicroseconds(speed);
-                digitalWrite(PULpin,LOW);
+                digitalWrite(PULpin, LOW);
                 delayMicroseconds(speed);
                 steps--;
-            }
-            delay(200);
-        }
+                }
+                delay(200);
 
-        if(deg>currDeg){
-            float travDeg = currDeg+deg;
-            int numStep = round(travDeg/stepAngle*gearRatio);
-            digitalWrite(DIRpin, HIGH);
-            for(int x = 0; x < numStep; x++){
+                }
+            if(deg>steps*stepAngle)
+            {
+                digitalWrite(DIRpin, HIGH);
+                int numStep = round(deg/stepAngle*gearRatio);
+                int travStep = abs(numStep)-steps;
+                for(int x = 0; x < travStep; x++)
+                {
                 digitalWrite(PULpin, HIGH);
                 delayMicroseconds(speed);
-                digitalWrite(PULpin,LOW);
+                digitalWrite(PULpin, LOW);
                 delayMicroseconds(speed);
                 steps++;
+                }
+            
+                delay(200);
+
+            }
+        }
+        else
+        {
+            digitalWrite(DIRpin, HIGH);
+            int numStep = round(deg/stepAngle*gearRatio);
+            int travStep = abs(numStep)+steps;
+            for(int x = 0; x < travStep; x++)
+            {
+            digitalWrite(PULpin, HIGH);
+            delayMicroseconds(speed);
+            digitalWrite(PULpin, LOW);
+            delayMicroseconds(speed);
+            steps++;
             }
             
             delay(200);
         }
-
     }
+    
 }
 
 
