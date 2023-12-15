@@ -42,7 +42,7 @@ void stepper::driveStepper(float deg, int speed)
             {
                 digitalWrite(DIRpin, HIGH);
                 int numStep = round(deg/stepAngle*gearRatio);
-                int travStep = abs(numStep)-steps;
+                int travStep = abs(steps)-abs(numStep);
                 for(int x = 0; x < travStep; x++)
                 {
                 digitalWrite(PULpin, HIGH);
@@ -115,7 +115,7 @@ void stepper::driveStepper(float deg, int speed)
         {
             digitalWrite(DIRpin, HIGH);
             int numStep = round(deg/stepAngle*gearRatio);
-            int travStep = abs(numStep)+steps;
+            int travStep = abs(numStep)+abs(steps);
             for(int x = 0; x < travStep; x++)
             {
             digitalWrite(PULpin, HIGH);
@@ -129,6 +129,12 @@ void stepper::driveStepper(float deg, int speed)
         }
     }
     
+}
+
+void stepper::getDeg()
+{
+    float deg = steps*stepAngle;
+    Serial.println(deg);
 }
 
 
