@@ -35,8 +35,7 @@ void stepper::driveStepper(float deg, int speed)
                 delayMicroseconds(speed);
                 steps--;
                 }
-                delay(200);
-
+                
             }
             if(deg>steps*stepAngle)
             {
@@ -52,7 +51,7 @@ void stepper::driveStepper(float deg, int speed)
                 steps++;
                 }
             
-                delay(200);
+                
 
             }
         }
@@ -68,7 +67,7 @@ void stepper::driveStepper(float deg, int speed)
             delayMicroseconds(speed);
             steps--;
             }
-            delay(200);
+            
         }
 
     }
@@ -90,7 +89,7 @@ void stepper::driveStepper(float deg, int speed)
                 delayMicroseconds(speed);
                 steps--;
                 }
-                delay(200);
+                
 
                 }
             if(deg>steps*stepAngle)
@@ -107,7 +106,7 @@ void stepper::driveStepper(float deg, int speed)
                 steps++;
                 }
             
-                delay(200);
+                
 
             }
         }
@@ -125,7 +124,7 @@ void stepper::driveStepper(float deg, int speed)
             steps++;
             }
             
-            delay(200);
+            
         }
     }
     
